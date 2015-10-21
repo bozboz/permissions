@@ -25,6 +25,8 @@ class PermissionServiceProvider extends ServiceProvider
 
 		$permissions = $this->app['permission.handler'];
 
-		include app_path('permissions.php');
+		if ($this->app['files']->exists('permissions.php')) {
+			include app_path('permissions.php');
+		}
 	}
 }
