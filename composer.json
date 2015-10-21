@@ -15,5 +15,5 @@
         "psr-0": {
             "Bozboz\\Permissions": "src/"
         }
-    },
+    }
 }
