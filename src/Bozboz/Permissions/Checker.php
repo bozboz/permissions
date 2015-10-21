@@ -50,7 +50,7 @@ class Checker
 		);
 
 		// Otherwise, get the rule and check permissions for user in context
-		return $this->handler->get($action)->validFor($this->forUser, $context);
+		return $this->handler->get($action)->validFor($user, $context);
 	}
 
 	/**
