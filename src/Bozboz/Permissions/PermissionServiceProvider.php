@@ -13,6 +13,8 @@ class PermissionServiceProvider extends ServiceProvider
 			return new Handler;
 		});
 
+		$this->app->bind('Bozboz\Permissions\Handler', 'permission.handler');
+
 		$this->app->bind('permission.checker', function($app)
 		{
 			return new Checker($app['permission.handler'], $app['auth']);
