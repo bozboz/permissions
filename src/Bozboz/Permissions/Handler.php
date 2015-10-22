@@ -7,14 +7,19 @@ class Handler
 	protected $rules = [];
 
 	/**
-	 * Define a new rule, identified by a name and an associated Rule class
+	 * Define a new rule, or set of rules, identified by a name and an
+	 * associated Rule class
 	 *
-	 * @param string  $name
+	 * @param string|array  $name
 	 * @param string  $class
 	 */
-	public function define($name, $class)
+	public function define($name, $class = null)
 	{
-		$this->rules[$name] = $class;
+		$rules = is_array($name) ? $name : [$name => $class];
+
+		foreach($rules as $name => $class) {
+			$this->rules[$name] = $class;
+		}
 	}
 
 	/**
