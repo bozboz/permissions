@@ -23,7 +23,7 @@ class Permission extends Model
 	 */
 	public function isValid($action, $param)
 	{
-		return $this->isWildCard() || $action === $this->action && (is_null($this->param) || $param === $this->param);
+		return $this->isWildCard() || ($this->isMatchingAction($action) && $this->isValidParam($param));
 	}
 
 	/**
@@ -34,5 +34,27 @@ class Permission extends Model
 	protected function isWildCard()
 	{
 		return $this->action === static::WILDCARD;
+	}
+
+	/**
+	 * Determine if passed action matches permission
+	 *
+	 * @param  string  $action
+	 * @return boolean
+	 */
+	protected function isMatchingAction($action)
+	{
+		return $this->action === $action;
+	}
+
+	/**
+	 * Determine if parameter is valid for permission
+	 *
+	 * @param  mixed  $param
+	 * @return boolean
+	 */
+	protected function isValidParam($param)
+	{
+		return is_null($this->param) || $param === $this->param;
 	}
 }
