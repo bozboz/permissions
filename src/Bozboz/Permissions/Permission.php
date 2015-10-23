@@ -14,6 +14,10 @@ class Permission extends Model
 		'user_id',
 	];
 
+	protected $nullable = [
+		'param'
+	];
+
 	/**
 	 * Determine if current rule matches requested action and parameter
 	 *
