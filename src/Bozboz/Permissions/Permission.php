@@ -14,17 +14,6 @@ class Permission extends Model
 		'user_id',
 	];
 
-	public function label()
-	{
-		$label = $this->action;
-
-		if ($this->param) {
-			$label .= ' [' . $this->param . ']';
-		}
-
-		return $label;
-	}
-
 	/**
 	 * Determine if current rule matches requested action and parameter
 	 *
@@ -34,7 +23,7 @@ class Permission extends Model
 	 */
 	public function isValid($action, $param)
 	{
-		return $this->isWildCard() || $action === $this->action && $param === $this->param;
+		return $this->isWildCard() || $action === $this->action && (is_null($this->param) || $param === $this->param);
 	}
 
 	/**

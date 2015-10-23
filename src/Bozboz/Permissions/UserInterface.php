@@ -11,5 +11,5 @@ interface UserInterface
 	 * @param  int|null  $perform
 	 * @return boolean
 	 */
-	public function canPerform($identifier, $param = null);
+	public function getPermissions();
 }

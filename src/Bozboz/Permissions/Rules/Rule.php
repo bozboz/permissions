@@ -2,13 +2,11 @@
 
 namespace Bozboz\Permissions\Rules;
 
-use Bozboz\Permissions\Exceptions\InvalidParameterException;
 use Bozboz\Permissions\UserInterface;
 
 class Rule
 {
 	protected $alias;
-	protected $noParam = false;
 
 	public function __construct($alias)
 	{
@@ -16,7 +14,7 @@ class Rule
 	}
 
 	/**
-	 * Determine if user is authorized for current rule
+	 * Determine if rule is valid for current user
 	 *
 	 * @param  Bozboz\Permissions\UserInterface  $user
 	 * @param  int  $param
@@ -24,22 +22,20 @@ class Rule
 	 */
 	public function validFor(UserInterface $user, $param)
 	{
-		$this->validate($param);
-
-		return $user->canPerform($this->alias, $param);
+		return $this->checkUserPermissions($user, $param);
 	}
 
 	/**
-	 * Determine if the rule can accept a parameter
+	 * Check user permissions
 	 *
+	 * @param  Bozboz\Permissions\UserInterface  $user
 	 * @param  int  $param
-	 * @throws Bozboz\Permissions\Exceptions\InvalidParameterException
-	 * @return void
+	 * @return boolean
 	 */
-	protected function validate($param)
+	protected function checkUserPermissions(UserInterface $user, $param)
 	{
-		if ( ! empty($param) && $this->noParam) throw new InvalidParameterException(
-			"'{$this->alias}' permission does not accept a parameter"
-		);
+		return $user->getPermissions()->filter(function($item) use ($param) {
+			return $item->isValid($this->alias, $param);
+		})->count() > 0;
 	}
 }

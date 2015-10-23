@@ -17,10 +17,8 @@ class ExampleUser extends Model implements UserInterface
 		return $this->hasMany(Permission::class, 'user_id');
 	}
 
-	public function canPerform($action, $param = null)
+	public function getPermissions($action, $param = null)
 	{
-		return $this->permissions->filter(function($item) use ($action, $param) {
-			return $action === $item->action && $param === $item->param;
-		})->count() > 0;
+		$this->permissions;
 	}
 }
