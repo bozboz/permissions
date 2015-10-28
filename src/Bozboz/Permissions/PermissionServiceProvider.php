@@ -23,8 +23,6 @@ class PermissionServiceProvider extends ServiceProvider
 
 	public function boot()
 	{
-		$this->package('bozboz/permissions');
-
 		$permissions = $this->app['permission.handler'];
 
 		if ($this->app['files']->exists('permissions.php')) {
