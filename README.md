@@ -53,4 +53,27 @@ if (Gate::forUser($user)->disallows('delete_pages')) {
 $instance->delete();
 ```
 
-The authenticated user instance must implement `Bozboz\Permissions\UserInterface`. User implementations that implement this interface must define a `canPerform` method. Implementations can retrieve permissions and determine validity as they desire.
+The authenticated user instance must implement `Bozboz\Permissions\UserInterface`. User implementations that implement this interface must define a `getPermissions` method. Implementations can retrieve permissions however they wish.
+
+### The rule stack
+
+The rule stack allows permissions of varying degrees of access to be stacked together, allowing the authenticated user to match any of the defined permissions. This is useful for defining "global" permissions, and stack on more specific rules, e.g.
+
+```php
+if (RuleStack::with('view_pages')->then('view_anything')->isAllowed()) {
+	// User is able to view pages and/or view anything
+}
+```
+
+The stack will check the left-most rule first, then further rules defined using the `then` method; stopping execution when an allowed rule is found. If no rule is allowed, the method will return false.
+
+Alternatively, a RuleStack instance can be instantiated and rules added to it using the `add` method:
+
+```php
+$stack = new RuleStack;
+$stack->add('edit_anything');
+$stack->add('edit_page', 5);
+return $stack->isAllowed();
+```
+
+Here, the stack will check the last added rule first, and work its way up.
