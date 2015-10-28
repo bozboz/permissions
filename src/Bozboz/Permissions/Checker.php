@@ -2,7 +2,7 @@
 
 namespace Bozboz\Permissions;
 
-use Illuminate\Auth\AuthManager;
+use Illuminate\Auth\Guard;
 
 class Checker
 {
@@ -10,7 +10,7 @@ class Checker
 	protected $auth;
 	protected $forUser;
 
-	public function __construct(Handler $handler, AuthManager $auth)
+	public function __construct(Handler $handler, Guard $auth)
 	{
 		$this->handler = $handler;
 		$this->auth = $auth;

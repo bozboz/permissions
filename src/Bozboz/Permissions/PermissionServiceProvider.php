@@ -17,7 +17,7 @@ class PermissionServiceProvider extends ServiceProvider
 
 		$this->app->bind('permission.checker', function($app)
 		{
-			return new Checker($app['permission.handler'], $app['auth']);
+			return new Checker($app['permission.handler'], $app['auth']->driver());
 		});
 	}
 
