@@ -25,10 +25,17 @@ class PermissionServiceProvider extends ServiceProvider
 	{
 		$this->package('bozboz/permissions');
 
+		$this->includeAppPermissions();
+	}
+
+	protected function includeAppPermissions()
+	{
+		$file = app_path('permissions.php');
+
 		$permissions = $this->app['permission.handler'];
 
-		if ($this->app['files']->exists('permissions.php')) {
-			include app_path('permissions.php');
+		if ($this->app['files']->exists($file)) {
+			include $file;
 		}
 	}
 }
