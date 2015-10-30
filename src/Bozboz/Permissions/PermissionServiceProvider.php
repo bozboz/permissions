@@ -23,8 +23,6 @@ class PermissionServiceProvider extends ServiceProvider
 
 	public function boot()
 	{
-		$this->package('bozboz/permissions');
-
 		$this->includeAppPermissions();
 	}
 
