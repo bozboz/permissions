@@ -34,8 +34,8 @@ class Rule
 	 */
 	protected function checkUserPermissions(UserInterface $user, $param)
 	{
-		return $user->getPermissions()->filter(function($item) use ($param) {
-			return $item->isValid($this->alias, $param);
+		return $user->getPermissions()->filter(function($permission) use ($param) {
+			return $permission->isValid($this->alias, $param);
 		})->count() > 0;
 	}
 }
