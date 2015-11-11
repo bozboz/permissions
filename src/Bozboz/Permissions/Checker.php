@@ -2,7 +2,7 @@
 
 namespace Bozboz\Permissions;
 
-use Illuminate\Auth\Guard;
+use Illuminate\Contracts\Auth\Guard;
 
 class Checker
 {
