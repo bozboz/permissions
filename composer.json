@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Bozboz\\Permissions": "src/"
+            "Bozboz\\Permissions\\": "src/"
         }
     },
     "extra": {
