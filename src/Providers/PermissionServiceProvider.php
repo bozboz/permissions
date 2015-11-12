@@ -2,6 +2,8 @@
 
 namespace Bozboz\Permissions\Providers;
 
+use Bozboz\Permissions\Checker;
+use Bozboz\Permissions\Handler;
 use Illuminate\Support\ServiceProvider;
 
 class PermissionServiceProvider extends ServiceProvider
