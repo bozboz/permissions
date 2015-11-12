@@ -1,6 +1,6 @@
 <?php
 
-namespace Bozboz\Permissions;
+namespace Bozboz\Permissions\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,6 +23,10 @@ class PermissionServiceProvider extends ServiceProvider
 
 	public function boot()
 	{
+		$this->publishes([
+			__DIR__ . '/../../database/migrations' => database_path('migrations')
+		], 'migrations');
+
 		$this->includeAppPermissions();
 	}
 
