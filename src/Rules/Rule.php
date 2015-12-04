@@ -17,7 +17,7 @@ class Rule
 	 * Determine if rule is valid for current user
 	 *
 	 * @param  Bozboz\Permissions\UserInterface  $user
-	 * @param  int  $param
+	 * @param  mixed  $param
 	 * @return boolean
 	 */
 	public function validFor(UserInterface $user, $param)
@@ -29,13 +29,26 @@ class Rule
 	 * Check user permissions
 	 *
 	 * @param  Bozboz\Permissions\UserInterface  $user
-	 * @param  int  $param
+	 * @param  mixed  $param
 	 * @return boolean
 	 */
 	protected function checkUserPermissions(UserInterface $user, $param)
 	{
+		$param = $this->getParamForPermission($param);
+
 		return $user->getPermissions()->filter(function($permission) use ($param) {
 			return $permission->isValid($this->alias, $param);
 		})->count() > 0;
+	}
+
+	/**
+	 * Amend the passed rule parameter to pass to the permission check
+	 *
+	 * @param  mixed  $param
+	 * @return mixed
+	 */
+	protected function getParamForPermission($param)
+	{
+		return $param;
 	}
 }
