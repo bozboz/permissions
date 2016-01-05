@@ -39,7 +39,7 @@ class Checker
 	{
 		$user = $this->getAuthedUser();
 
-		return $user ? $this->getRuleFromAction($action)->getParams($user, $action) : false;
+		return $user ? $this->getRuleFromAction($action)->getParams($user) : false;
 	}
 
 	/**
