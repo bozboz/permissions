@@ -26,6 +26,19 @@ class Rule
 	}
 
 	/**
+	 * Get an array of authorised parameters for the $user for rule
+	 *
+	 * @param  Bozboz\Permissions\UserInterface  $user
+	 * @return array
+	 */
+	public function getParams(UserInterface $user)
+	{
+		return $user->getPermissions()->filter(function($permission) {
+			return $permission->isMatchingAction($this->alias) && ! is_null($permission->param);
+		})->lists('param');
+	}
+
+	/**
 	 * Check user permissions
 	 *
 	 * @param  Bozboz\Permissions\UserInterface  $user

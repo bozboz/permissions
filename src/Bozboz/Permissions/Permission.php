@@ -46,7 +46,7 @@ class Permission extends Model
 	 * @param  string  $action
 	 * @return boolean
 	 */
-	protected function isMatchingAction($action)
+	public function isMatchingAction($action)
 	{
 		return $this->action === $action;
 	}
