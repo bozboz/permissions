@@ -10,7 +10,7 @@ class PermissionServiceProvider extends ServiceProvider
 {
 	public function register()
 	{
-		$this->app->bindShared('permission.handler', function($app)
+		$this->app->singleton('permission.handler', function($app)
 		{
 			return new Handler;
 		});
@@ -19,7 +19,7 @@ class PermissionServiceProvider extends ServiceProvider
 
 		$this->app->bind('permission.checker', function($app)
 		{
-			return new Checker($app['permission.handler'], $app['auth']->driver());
+			return new Checker($app['permission.handler'], $app['auth']->guard());
 		});
 	}
 
