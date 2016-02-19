@@ -19,6 +19,8 @@ class Permission extends Model
 	];
 
 	/**
+	 * @deprecated
+	 *
 	 * Determine if current rule matches requested action and parameter
 	 *
 	 * @param  string  $action
@@ -27,7 +29,30 @@ class Permission extends Model
 	 */
 	public function isValid($action, $param)
 	{
+		return $this->matches($action, $param);
+	}
+
+	/**
+	 * Check if permission is a wildcard, or matches provided action and param
+	 *
+	 * @param  string  $action
+	 * @param  mixed  $param
+	 * @return boolean
+	 */
+	public function matches($action, $param)
+	{
 		return $this->isWildCard() || ($this->isMatchingAction($action) && $this->isValidParam($param));
+	}
+
+	/**
+	 * Check if permission is a wildcard or matches provided action
+	 *
+	 * @param  string  $action
+	 * @return boolean
+	 */
+	public function matchesAction($action)
+	{
+		return $this->isWildCard() || $this->isMatchingAction($action);
 	}
 
 	/**
@@ -46,7 +71,7 @@ class Permission extends Model
 	 * @param  string  $action
 	 * @return boolean
 	 */
-	public function isMatchingAction($action)
+	protected function isMatchingAction($action)
 	{
 		return $this->action === $action;
 	}
