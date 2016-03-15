@@ -30,6 +30,19 @@ class Checker
 	}
 
 	/**
+	 * Retrieve an array of parameters for a registered rule
+	 *
+	 * @param  string  $action
+	 * @return array
+	 */
+	public function getParams($action)
+	{
+		$user = $this->getAuthedUser();
+
+		return $user ? $this->getRuleFromAction($action)->getParams($user) : false;
+	}
+
+	/**
 	 * Determine if current registered user is allowed to perform the specified
 	 * action (in optional context)
 	 *
@@ -39,18 +52,9 @@ class Checker
 	 */
 	public function allows($action, $context = null)
 	{
-		$user = $this->forUser ?: $this->auth->user();
+		$user = $this->getAuthedUser();
 
-		// If there's no user, there are no permissions to check
-		if ( ! $user) return false;
-
-		// If the rule is not found, there's probably a developer error
-		if ( ! $this->handler->has($action)) throw new Exceptions\RuleNotFoundException(
-			"'{$action}' is not a registered rule"
-		);
-
-		// Otherwise, get the rule and check permissions for user in context
-		return $this->handler->get($action)->validFor($user, $context);
+		return $user ? $this->getRuleFromAction($action)->validFor($user, $context) : false;
 	}
 
 	/**
@@ -63,5 +67,33 @@ class Checker
 	public function disallows($rule, $context = null)
 	{
 		return ! $this->allows($rule, $context);
+	}
+
+	/**
+	 * Get the authenticated user
+	 *
+	 * @return Bozboz\Permissions\UserInterface
+	 */
+	protected function getAuthedUser()
+	{
+		return $this->forUser ?: $this->auth->user();
+	}
+
+	/**
+	 * Retrieve Rule object based on name
+	 *
+	 * @param  string  $action
+	 * @throws Bozboz\Permissions\Exceptions\RuleNotFoundException
+	 * @return Bozboz\Permissions\Rules\Rule
+	 */
+	protected function getRuleFromAction($action)
+	{
+		// If the rule is not found, there's probably a developer error
+		if ( ! $this->handler->has($action)) throw new Exceptions\RuleNotFoundException(
+			"'{$action}' is not a registered rule"
+		);
+
+		// Otherwise, get the rule and check permissions for user in context
+		return $this->handler->get($action);
 	}
 }
