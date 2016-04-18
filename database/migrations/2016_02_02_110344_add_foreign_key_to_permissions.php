@@ -14,9 +14,8 @@ class AddForeignKeyToPermissions extends Migration
     {
         DB::table('permissions')->whereNotIn('user_id', DB::table('users')->lists('id'))->delete();
 
-        Schema::table('permissions', function (Blueprint $table) {
-            $table->unsignedInteger('user_id')->change();
-        });
+        DB::statement('ALTER TABLE `permissions` MODIFY COLUMN `user_id` INT UNSIGNED NOT NULL');
+
         Schema::table('permissions', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
