@@ -84,6 +84,6 @@ class Permission extends Model
 	 */
 	protected function isValidParam($param)
 	{
-		return is_null($this->param) || $param === $this->param;
+		return is_null($this->param) || (string)$param === (string)$this->param;
 	}
 }
